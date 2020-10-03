@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+// shorten v1
+package urlshortener;
+option go_package = ".;pb";
+
+message ShortenRequest {
+    string URL = 1;
+    string key = 2;
+}
+
+message ShortenResponse {
+    string minifyURL = 1;
+}
+
+message FetchURLRequest{
+    string minifyURL = 1;
+}
+
+message FetchURLResponse{
+    string originalURL = 1;
+}
+
+service ShortenService {
+    rpc Shorten (ShortenRequest) returns (ShortenResponse);
+    rpc FetchURL (FetchURLRequest) returns(FetchURLResponse);
+}

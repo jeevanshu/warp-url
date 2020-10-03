@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+// health v1
+package urlshortener;
+option go_package = ".;pb";
+
+
+message HealthRequest {
+    string message = 1;
+}
+
+message HealthResponse {
+    string response = 1;
+}
+
+service HealthService {
+    rpc Health (HealthRequest) returns (HealthResponse);
+}
