@@ -2,12 +2,9 @@ package service
 
 import (
 	"log"
-	"net/url"
 
 	"github.com/jeevanshu/warp-url/pb"
 	"golang.org/x/net/context"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/internal/status"
 	"k8s.io/apimachinery/pkg/util/rand"
 )
 
@@ -18,11 +15,7 @@ type URLService struct {
 // Shorten function to handle urls
 func (svc *URLService) Shorten(ctx context.Context, request *pb.ShortenRequest) (*pb.ShortenResponse, error) {
 	log.Printf("Recieved URL shorten request")
-	u := request.GetURL()
-	domainName, err := url.ParseRequestURI(u)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "Only absolute url allowed, please check url: %v", request.URL)
-	}
+	domainName := request.GetURL()
 	var urlKey string
 	if request.Key != "" {
 		urlKey = request.Key
