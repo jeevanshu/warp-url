@@ -33,12 +33,12 @@ func init() {
 	}
 	Conn = pool.Get()
 }
-func storeValue(orignalURL string, key string) {
+func storeValue(uc URLConfiguration) {
 
 	_, err := Conn.Do(
-		"HMSET", "key:"+key,
-		"URL", orignalURL,
-		"key", key,
+		"HMSET", "key:"+uc.Key,
+		"URL", uc.OrignalURL,
+		"key", uc.Key,
 	)
 
 	if err != nil {
