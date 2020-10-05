@@ -7,5 +7,4 @@ A URL shortener which uses gRPC protocol
 - gRPC
 - golang
 - redis
-- docker
-- kubernetes
+
