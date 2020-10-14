@@ -27,7 +27,7 @@ func runGRPCServer(urlserver pb.ShortenServiceServer, healthserver pb.HealthServ
 	reflection.Register(grpcServer)
 	log.Printf("Starting server at 0.0.0.0:8088")
 	if err := grpcServer.Serve(listener); err != nil {
-		log.Printf("An error occured while creating grpc server: %v", err)
+		log.Printf("An error occurred while creating grpc server: %v", err)
 	}
 
 	done <- 1

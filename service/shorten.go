@@ -14,7 +14,7 @@ type URLService struct {
 
 // Shorten function to handle urls
 func (svc *URLService) Shorten(ctx context.Context, request *pb.ShortenRequest) (*pb.ShortenResponse, error) {
-	log.Printf("Recieved URL shorten request")
+	log.Printf("Received URL shorten request")
 	domainName := request.GetURL()
 	var urlKey string
 	if request.Key != "" {
