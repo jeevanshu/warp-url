@@ -12,9 +12,6 @@ import (
 var pool *redis.Pool
 var conf *config.Config
 
-// Conn variable to establish connection to redis
-var Conn redis.Conn
-
 // URLConfiguration struct to store redis value
 type URLConfiguration struct {
 	OrignalURL string `redis:"URL"`
@@ -31,11 +28,12 @@ func init() {
 			return redis.Dial("tcp", conf.RedisURL, redis.DialDatabase(0))
 		},
 	}
-	Conn = pool.Get()
+
 }
 func storeValue(uc URLConfiguration) {
-
-	_, err := Conn.Do(
+	conn := pool.Get()
+	defer conn.Close()
+	_, err := conn.Do(
 		"HMSET", "key:"+uc.Key,
 		"URL", uc.OrignalURL,
 		"key", uc.Key,
@@ -48,7 +46,9 @@ func storeValue(uc URLConfiguration) {
 }
 
 func fetchValue(minifyURL string) string {
-	urlvalues, err := redis.Values(Conn.Do("HGETALL", "key:"+minifyURL))
+	conn := pool.Get()
+	defer conn.Close()
+	urlvalues, err := redis.Values(conn.Do("HGETALL", "key:"+minifyURL))
 
 	if err != nil {
 		log.Printf("Error in fetching value from redis %v", err)
